@@ -10,57 +10,11 @@ import {NativeModules, Platform} from 'react-native';
 
 const {AppMetrica} = NativeModules;
 
-type AppMetricaConfig = {
-  apiKey: string,
-  appVersion?: string,
-  crashReporting?: boolean,
-  firstActivationAsUpdate?: boolean,
-  location: Location,
-  locationTracking?: boolean,
-  logs?: boolean,
-  sessionTimeout?: number,
-  statisticsSending?: boolean,
-  preloadInfo?: PreloadInfo,
-  // Only Android
-  installedAppCollecting?: boolean,
-  maxReportsInDatabaseCount?: number,
-  nativeCrashReporting?: boolean,
-  // Only iOS
-  activationAsSessionStart?: boolean,
-  sessionsAutoTracking?: boolean,
-}
+class YandexMetrica {
 
-type FloorType = 'male' | 'female';
-
-type UserProfileConfig = {
-  name: string,
-  floor?: FloorType,
-  age: number,
-  isNotification: boolean,
-}
-
-type PreloadInfo = {
-  trackingId: string,
-  additionalInfo?: Object,
-}
-
-type Location = {
-  latitude: number,
-  longitude: number,
-  altitude?: number,
-  accuracy?: number,
-  course?: number,
-  speed?: number,
-  timestamp?: number
-}
-
-type AppMetricaDeviceIdReason = 'UNKNOWN' | 'NETWORK' | 'INVALID_RESPONSE';
-
-export default {
-
-  activate(config: AppMetricaConfig) {
+  activate(config) {
     AppMetrica.activate(config);
-  },
+  }
 
   initPush(token = ''){
     if(Platform.OS === 'android') {
@@ -68,70 +22,73 @@ export default {
     } else {
       AppMetrica.initPush(token);
     }
-  },
+  }
 
   getToken(){
     return AppMetrica.getToken();
-  },
+  }
 
-  reportUserProfile(config: UserProfileConfig){
+  reportUserProfile(config){
     AppMetrica.reportUserProfile(config);
-  },
+  }
 
   // Android
-  async getLibraryApiLevel(): number {
+  async getLibraryApiLevel() {
     return AppMetrica.getLibraryApiLevel();
-  },
+  }
 
-  async getLibraryVersion(): string {
+  async getLibraryVersion() {
     return AppMetrica.getLibraryVersion();
-  },
+  }
 
   pauseSession() {
     AppMetrica.pauseSession();
-  },
+  }
 
-  reportAppOpen(deeplink: ?string = null) {
+  reportAppOpen(deeplink) {
     AppMetrica.reportAppOpen(deeplink);
-  },
+  }
 
-  reportError(error: string, reason: Object) {
+  reportError(error, reason) {
     AppMetrica.reportError(error);
-  },
+  }
 
-  reportEvent(eventName: string, attributes: ?Object = null) {
+  reportEvent(eventName, attributes) {
     AppMetrica.reportEvent(eventName, attributes);
-  },
+  }
 
-  reportReferralUrl(referralUrl: string) {
+  reportReferralUrl(referralUrl) {
     AppMetrica.reportReferralUrl(referralUrl);
-  },
+  }
 
-  requestAppMetricaDeviceID(listener: (deviceId?: String, reason?: AppMetricaDeviceIdReason) => void) {
+  requestAppMetricaDeviceID(listener: (deviceId, reason) {
     AppMetrica.requestAppMetricaDeviceID(listener);
-  },
+  }
 
   resumeSession() {
     AppMetrica.resumeSession();
-  },
+  }
 
   sendEventsBuffer() {
     AppMetrica.sendEventsBuffer();
-  },
+  }
 
-  setLocation(location: ?Location) {
+  setLocation(location) {
     AppMetrica.setLocation(location);
-  },
+  }
 
-  setLocationTracking(enabled: boolean) {
+  setLocationTracking(enabled) {
     AppMetrica.setLocationTracking(enabled);
-  },
+  }
 
-  setStatisticsSending(enabled: boolean) {
+  setStatisticsSending(enabled) {
     AppMetrica.setStatisticsSending(enabled);
-  },
+  }
 
-  setUserProfileID(userProfileID?: string) {
+  setUserProfileID(userProfileID) {
     AppMetrica.setUserProfileID(userProfileID);
-  },
+  }
 };
+
+const yandexMetricaNext = new YandexMetrica()
+export default yandexMetricaNext;
