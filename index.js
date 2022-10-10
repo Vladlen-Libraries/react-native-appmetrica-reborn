@@ -61,7 +61,7 @@ class YandexMetrica {
     AppMetrica.reportReferralUrl(referralUrl);
   }
 
-  requestAppMetricaDeviceID(listener: (deviceId, reason) {
+  requestAppMetricaDeviceID(listener) {
     AppMetrica.requestAppMetricaDeviceID(listener);
   }
 
