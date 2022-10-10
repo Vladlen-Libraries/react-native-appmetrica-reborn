@@ -9,9 +9,11 @@ react-native-push-next library functionality is expanded [react-native-appmetric
 
 ## Installation
 
-`npm install react-native-appmetrica-next --save`
+`npm install https://gitlab.com/getgain-public/libs/react-native-appmetrica-next.git --save`
+
 or
-`yearn add react-native-appmetrica-next`
+
+`yarn add https://gitlab.com/getgain-public/libs/react-native-appmetrica-next.git`
 
 ## Usage
 
@@ -51,31 +53,64 @@ RNAppMetrica.reportUserProfile({
 
 ## NEXT for Android
 
-## create file FirebaseMessagingMasterService.java in you project
+## Create file FirebaseMessagingMasterService.java in android/app/src/main/java/com/yourappname/FirebaseMessagingMasterService.java
 
 ```js
+package com.your.app;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.yandex.metrica.push.firebase.MetricaMessagingService;
+import androidx.annotation.NonNull;
 
 public class FirebaseMessagingMasterService extends FirebaseMessagingService {
+    @Override
+    public void onMessageReceived(RemoteMessage message) {
+    super.onMessageReceived(message);
+    new MetricaMessagingService().processPush(this, message);
+}
+
 @Override
-public void onMessageReceived(RemoteMessage message) {
-super.onMessageReceived(message);
-// AppMetrica automatically recognizes its messages and processes them only.
-new MetricaMessagingService().processPush(this, message);
-
-        // Implement the logic for sending messages to other SDKs.
-    }
-
+public void onNewToken(@NonNull String token) {
+    super.onNewToken(token);
+    new MetricaMessagingService().processToken(this, token);
+}
 }
 ```
 
-## Your files to Android manifest
+## Add to your app/build.gradle
 
 ```js
+android {
+    dexOptions {
+        preDexLibraries false // ADD THIS
+    }
+    
+    defaultConfig {
+        ...
+        multiDexEnabled true // ADD THIS
+    }
+    
+    dependencies {
+        //ADD THIS
+        implementation 'com.android.support:multidex:1.0.0'
+        implementation 'com.google.gms:google-services:4.3.3'
+        implementation 'com.google.firebase:firebase-messaging:22.0.0'
+        implementation "com.yandex.android:mobmetricapushlib:2.2.0"
+        //
+    }
+}
+
+```
+
+## Add service to your Android Manifest
+
+```js
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools" // <= ADD THIS
+          package="com.your.app">
 <application>
-  ...
+  //ADD THIS
   <service
     android:name=".FirebaseMessagingMasterService"
     android:enabled="true"
@@ -89,13 +124,14 @@ new MetricaMessagingService().processPush(this, message);
     android:name="com.yandex.metrica.push.firebase.MetricaMessagingService"
     tools:node="remove"
   />
-  ...
+  //
 </application>
+</manifest>
 ```
 
 ## Silent Push Notifications for Android
 
-## create file BroadcastReceiver in you project
+### Create file SilentPushReceiver.java in android/app/src/main/java/com/yourappname/SilentPushReceiver.java
 
 ```js
 import android.content.BroadcastReceiver;
@@ -103,21 +139,20 @@ import android.content.Context;
 import android.content.Intent;
 import com.yandex.metrica.push.YandexMetricaPush;
 
-
 public class SilentPushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
-        String payload = intent.getStringExtra(YandexMetricaPush.EXTRA_PAYLOAD);
+    // TODO: This method is called when the BroadcastReceiver is receiving
+    // an Intent broadcast.
+    String payload = intent.getStringExtra(YandexMetricaPush.EXTRA_PAYLOAD);
 
-        throw new UnsupportedOperationException("Not yet implemented");
+    throw new UnsupportedOperationException("Not yet implemented");
     }
 }
 ```
 
-## Your files to Android manifest
+## Add to Android manifest
 
 ```js
 <application>
@@ -177,13 +212,12 @@ public class SilentPushReceiver extends BroadcastReceiver {
 ```js
 import AppMetrica from "react-native-appmetrica-next";
 
-// init Push SDK example for iOS
- checkPermission = async () => {
-    const authorizationStatus = await messaging().requestPermission();
+ register = async () => {
+     const authorizationStatus = await messaging().requestPermission();
 
-    if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-      const deviceToken = await messaging().getToken();
-
-      RNAppMetrica.initPush();
-
+     if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+         const deviceToken = await messaging().getToken();
+         RNAppMetrica.initPush(deviceToken);
+     }
+ }
 ```
