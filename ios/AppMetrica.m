@@ -34,13 +34,13 @@ RCT_EXPORT_MODULE();
 + (NSDictionary *)addCustomPropsToUserProps:(NSDictionary *_Nullable)userProps withLaunchOptions:(NSDictionary *_Nullable)launchOptions  {
     NSMutableDictionary *appProperties = userProps != nil ? [userProps mutableCopy] : [NSMutableDictionary dictionary];
     appProperties[@"isHeadless"] = @([RCTConvert BOOL:@(NO)]);
-        
+
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
       if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
         appProperties[@"isHeadless"] = @([RCTConvert BOOL:@(YES)]);
       }
     }
-    
+
     return [NSDictionary dictionaryWithDictionary:appProperties];
 }
 
@@ -61,14 +61,7 @@ RCT_EXPORT_METHOD(reportUserProfile:(NSDictionary *)configDict)
 
 RCT_EXPORT_METHOD(initPush:(NSData *)deviceToken)
 {
-
-    #ifdef DEBUG
-       YMPYandexMetricaPushEnvironment pushEnvironment = YMPYandexMetricaPushEnvironmentDevelopment;
-    #else
-       YMPYandexMetricaPushEnvironment pushEnvironment = YMPYandexMetricaPushEnvironmentProduction;
-    #endif
-   [YMPYandexMetricaPush setDeviceTokenFromData:[FIRMessaging messaging].APNSToken pushEnvironment:pushEnvironment];
-    
+    [YMPYandexMetricaPush setDeviceTokenFromData: deviceToken];
 }
 
 RCT_EXPORT_METHOD(getLibraryApiLevel)
