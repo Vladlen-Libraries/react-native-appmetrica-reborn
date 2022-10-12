@@ -30,7 +30,6 @@ RCT_EXPORT_MODULE();
   return YES;
 }
 
-
 + (NSDictionary *)addCustomPropsToUserProps:(NSDictionary *_Nullable)userProps withLaunchOptions:(NSDictionary *_Nullable)launchOptions  {
     NSMutableDictionary *appProperties = userProps != nil ? [userProps mutableCopy] : [NSMutableDictionary dictionary];
     appProperties[@"isHeadless"] = @([RCTConvert BOOL:@(NO)]);
@@ -57,11 +56,9 @@ RCT_EXPORT_METHOD(reportUserProfile:(NSDictionary *)configDict)
     }];
 }
 
-
-
 RCT_EXPORT_METHOD(initPush:(NSData *)deviceToken)
 {
-    [YMPYandexMetricaPush setDeviceTokenFromData: deviceToken];
+    [YMPYandexMetricaPush setDeviceTokenFromData:deviceToken pushEnvironment:YMPYandexMetricaPushEnvironmentProduction];
 }
 
 RCT_EXPORT_METHOD(getLibraryApiLevel)
