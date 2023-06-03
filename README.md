@@ -9,11 +9,11 @@ react-native-push-next library functionality is expanded [react-native-appmetric
 
 ## Installation
 
-`npm install https://gitlab.com/getgain-public/libs/react-native-appmetrica-next.git --save`
+`npm install https://github.com/Vladlen-Development/react-native-appmetrica-next.git --save`
 
 or
 
-`yarn add https://gitlab.com/getgain-public/libs/react-native-appmetrica-next.git`
+`yarn add https://github.com/Vladlen-Development/react-native-appmetrica-next.git`
 
 ## Usage
 
