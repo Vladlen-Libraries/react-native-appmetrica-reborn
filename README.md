@@ -157,7 +157,7 @@ public class SilentPushReceiver extends BroadcastReceiver {
 ```js
 <application>
   ...
- <receiver android:name=".SilentPushReceiver">
+ <receiver android:name=".SilentPushReceiver" android:exported="true">
             <intent-filter>
                 <!-- Receive silent push notifications. -->
                 <action android:name="${applicationId}.action.ymp.SILENT_PUSH_RECEIVE"/>
