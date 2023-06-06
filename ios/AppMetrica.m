@@ -58,7 +58,7 @@ RCT_EXPORT_METHOD(reportUserProfile:(NSDictionary *)configDict)
 
 RCT_EXPORT_METHOD(initPush:(NSData *)deviceToken)
 {
-    [YMPYandexMetricaPush setDeviceTokenFromData:deviceToken pushEnvironment:YMPYandexMetricaPushEnvironmentProduction];
+    // It does nothing for iOS
 }
 
 RCT_EXPORT_METHOD(getLibraryApiLevel)
@@ -80,9 +80,6 @@ RCT_EXPORT_METHOD(reportAppOpen:(NSString *)deeplink)
 {
     [YMMYandexMetrica handleOpenURL:[NSURL URLWithString:deeplink]];
 }
-
-
-
 
 RCT_EXPORT_METHOD(reportError:(NSString *)message) {
     NSException *exception = [[NSException alloc] initWithName:message reason:nil userInfo:nil];
