@@ -19,8 +19,9 @@ class YandexMetrica {
   initPush(token = ''){
     if(Platform.OS === 'android') {
       AppMetrica.initPush();
+    } else {
+      AppMetrica.initPush(token);
     }
-    //iOS подключается нативно, отсюда не захотел работать(
   }
 
   getToken(){
