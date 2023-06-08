@@ -26,6 +26,14 @@ class YandexMetrica {
     }
   }
 
+  //Ecommerce Methods:
+
+  showScreenEvent(params) {
+    return AppMetrica.showScreen(params);
+  }
+
+  //
+
   getToken(){
     return AppMetrica.getToken();
   }

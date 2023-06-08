@@ -16,9 +16,22 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.push.YandexMetricaPush;
+import com.yandex.metrica.ecommerce.ECommerceAmount;
+import com.yandex.metrica.ecommerce.ECommerceCartItem;
+import com.yandex.metrica.ecommerce.ECommerceEvent;
+import com.yandex.metrica.ecommerce.ECommerceOrder;
+import com.yandex.metrica.ecommerce.ECommercePrice;
+import com.yandex.metrica.ecommerce.ECommerceProduct;
+import com.yandex.metrica.ecommerce.ECommerceReferrer;
+import com.yandex.metrica.ecommerce.ECommerceScreen;
+
+import java.util.ArrayList;
+import java.lang.*;
 
 
 public class AppMetricaModule extends ReactContextBaseJavaModule {
@@ -143,5 +156,79 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setUserProfileID(String userProfileID) {
         YandexMetrica.setUserProfileID(userProfileID);
+    }
+
+    //Ecommerce Methods
+    public ECommerceScreen createScreen(ReadableMap params) {
+        ECommerceScreen screen = new ECommerceScreen().setName(params.getString("screenName")).setSearchQuery(params.getString("searchQuery"));
+        return screen;
+    }
+
+    public ECommerceProduct createProduct(ReadableMap params) {
+        ECommercePrice actualPrice = new ECommercePrice(new ECommerceAmount(Integer.parseInt(params.getString("price")), params.getString("currency")));
+        ECommerceProduct product = new ECommerceProduct(params.getString("sku")).setActualPrice(actualPrice).setName(params.getString("name"));
+        return product;
+    }
+
+    public ECommerceCartItem createCartItem(ReadableMap params) {
+        ECommerceScreen screen = this.createScreen(params);
+        ECommerceProduct product = this.createProduct(params);
+        ECommercePrice actualPrice = new ECommercePrice(new ECommerceAmount(Integer.parseInt(params.getString("price")), params.getString("currency")));
+        ECommerceReferrer referrer = new ECommerceReferrer().setScreen(screen);
+        ECommerceCartItem cartItem = new ECommerceCartItem(product, actualPrice, Integer.parseInt(params.getString("quantity"))).setReferrer(referrer);
+        return cartItem;
+    }
+
+    @ReactMethod
+    public void showScreen(ReadableMap params) {
+        ECommerceScreen screen = this.createScreen(params);
+        ECommerceEvent showScreenEvent = ECommerceEvent.showScreenEvent(screen);
+        YandexMetrica.reportECommerce(showScreenEvent);
+    }
+
+    @ReactMethod
+    public void showProductCard(ReadableMap params) {
+        ECommerceScreen screen = this.createScreen(params);
+        ECommerceProduct product = this.createProduct(params);
+        ECommerceEvent showProductCardEvent = ECommerceEvent.showProductCardEvent(product, screen);
+        YandexMetrica.reportECommerce(showProductCardEvent);
+    }
+
+    @ReactMethod
+    public void addToCart(ReadableMap params) {
+        ECommerceCartItem cartItem = this.createCartItem(params);
+        ECommerceEvent addCartItemEvent = ECommerceEvent.addCartItemEvent(cartItem);
+        YandexMetrica.reportECommerce(addCartItemEvent);
+    }
+
+    @ReactMethod
+    public void removeFromCart(ReadableMap params) {
+        ECommerceCartItem cartItem = this.createCartItem(params);
+        ECommerceEvent removeCartItemEvent = ECommerceEvent.removeCartItemEvent(cartItem);
+        YandexMetrica.reportECommerce(removeCartItemEvent);
+    }
+
+    @ReactMethod
+    public void beginCheckout(ReadableArray products, String identifier) {
+        ArrayList<ECommerceCartItem> cartItems = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++) {
+            ReadableMap productData = products.getMap(i);
+            cartItems.add(this.createCartItem(productData));
+        }
+        ECommerceOrder order = new ECommerceOrder(identifier, cartItems);
+        ECommerceEvent beginCheckoutEvent = ECommerceEvent.beginCheckoutEvent(order);
+        YandexMetrica.reportECommerce(beginCheckoutEvent);
+    }
+
+    @ReactMethod
+    public void finishCheckout(ReadableArray products, String identifier) {
+        ArrayList<ECommerceCartItem> cartItems = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++) {
+            ReadableMap productData = products.getMap(i);
+            cartItems.add(this.createCartItem(productData));
+        }
+        ECommerceOrder order = new ECommerceOrder(identifier, cartItems);
+        ECommerceEvent purchaseEvent = ECommerceEvent.purchaseEvent(order);
+        YandexMetrica.reportECommerce(purchaseEvent);
     }
 }
