@@ -101,7 +101,7 @@ RCT_EXPORT_METHOD(getLibraryApiLevel)
 
     YMMECommercePrice *actualPrice = [self createPrice:product];
 
-    YMMECommerceCartItem *cartItem = [[YMMECommerceCartItemw alloc]  initWithProduct:productObj quantity:quantity revenue:actualPrice referrer:referrer];
+    YMMECommerceCartItem *cartItem = [[YMMECommerceCartItem alloc]  initWithProduct:productObj quantity:quantity revenue:actualPrice referrer:referrer];
 
     return cartItem;
 }
