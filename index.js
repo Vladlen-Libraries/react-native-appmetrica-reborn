@@ -13,14 +13,16 @@ const {AppMetrica} = NativeModules;
 class YandexMetrica {
 
   activate(config) {
-    AppMetrica.activate(config);
+    //ios подключается нативно в самом приложении
+    if(Platform.OS === 'android') {
+      AppMetrica.activate(config);
+    }
   }
 
-  initPush(token = ''){
-    if(Platform.OS === 'android') {
+  initPush(token = '') {
+    //ios подключается нативно в самом приложении
+    if (Platform.OS === 'android') {
       AppMetrica.initPush();
-    } else {
-      AppMetrica.initPush(token);
     }
   }
 
