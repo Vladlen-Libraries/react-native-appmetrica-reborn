@@ -38,7 +38,7 @@ declare module 'react-native-appmetrica-next' {
 
     export default class YandexMetrica {
         static activate(config: AppMetricaConfig): Promise<void>;
-        static initPush(token: string): void;
+        static initPush(): void;
         static reportEvent(eventName: string, attributes?: null | Object): Promise<void>;
         static getLibraryApiLevel(): Promise<void>;
         static getLibraryVersion(): Promise<void>;
@@ -53,5 +53,7 @@ declare module 'react-native-appmetrica-next' {
         static setLocationTracking(enabled: boolean): void;
         static setStatisticsSending(enabled: boolean): void;
         static setUserProfileID(userProfileID: string): void;
+        // Ecommerce
+        static showScreen(name: string): Promise<void>
     }
 }
