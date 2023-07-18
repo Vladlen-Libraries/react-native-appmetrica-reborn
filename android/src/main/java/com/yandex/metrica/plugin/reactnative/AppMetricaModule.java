@@ -32,6 +32,7 @@ import com.yandex.metrica.ecommerce.ECommerceScreen;
 
 import java.util.ArrayList;
 import java.lang.*;
+import java.util.List;
 
 
 public class AppMetricaModule extends ReactContextBaseJavaModule {
@@ -158,16 +159,16 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
         YandexMetrica.setUserProfileID(userProfileID);
     }
 
-    //Ecommerce Methods
+    public ECommerceScreen createScreen(ReadableMap params, List<String> categories) {
+        return new ECommerceScreen().setName(params.getString("screenName")).setSearchQuery(params.getString("searchQuery")).setCategoriesPath(categories);
+    }
     public ECommerceScreen createScreen(ReadableMap params) {
-        ECommerceScreen screen = new ECommerceScreen().setName(params.getString("screenName")).setSearchQuery(params.getString("searchQuery"));
-        return screen;
+        return new ECommerceScreen().setName(params.getString("screenName")).setSearchQuery(params.getString("searchQuery"));
     }
 
     public ECommerceProduct createProduct(ReadableMap params) {
         ECommercePrice actualPrice = new ECommercePrice(new ECommerceAmount(Integer.parseInt(params.getString("price")), params.getString("currency")));
-        ECommerceProduct product = new ECommerceProduct(params.getString("sku")).setActualPrice(actualPrice).setName(params.getString("name"));
-        return product;
+        return new ECommerceProduct(params.getString("sku")).setActualPrice(actualPrice).setName(params.getString("name"));
     }
 
     public ECommerceCartItem createCartItem(ReadableMap params) {
@@ -175,13 +176,22 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
         ECommerceProduct product = this.createProduct(params);
         ECommercePrice actualPrice = new ECommercePrice(new ECommerceAmount(Integer.parseInt(params.getString("price")), params.getString("currency")));
         ECommerceReferrer referrer = new ECommerceReferrer().setScreen(screen);
-        ECommerceCartItem cartItem = new ECommerceCartItem(product, actualPrice, Integer.parseInt(params.getString("quantity"))).setReferrer(referrer);
-        return cartItem;
+        return new ECommerceCartItem(product, actualPrice, Integer.parseInt(params.getString("quantity"))).setReferrer(referrer);
     }
 
     @ReactMethod
     public void showScreen(ReadableMap params) {
         ECommerceScreen screen = this.createScreen(params);
+        ECommerceEvent showScreenEvent = ECommerceEvent.showScreenEvent(screen);
+        YandexMetrica.reportECommerce(showScreenEvent);
+    }
+    @ReactMethod
+    public void showScreenWithCategories(ReadableMap params, ReadableArray categories) {
+        List<String> _categories = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            _categories.add(categories.getString(i));
+        }
+        ECommerceScreen screen = this.createScreen(params, _categories);
         ECommerceEvent showScreenEvent = ECommerceEvent.showScreenEvent(screen);
         YandexMetrica.reportECommerce(showScreenEvent);
     }

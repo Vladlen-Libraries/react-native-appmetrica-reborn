@@ -27,11 +27,33 @@ class YandexMetrica {
   }
 
   //Ecommerce Methods:
-
   showScreenEvent(params) {
     return AppMetrica.showScreen(params);
   }
 
+  showScreenWithCategoriesEvent(params, categories) {
+    return AppMetrica.showScreenWithCategories(params, categories);
+  }
+
+  showProductCardEvent(params) {
+    return AppMetrica.showProductCard(params);
+  }
+
+  beginCheckoutEvent(products, identifier) {
+    return AppMetrica.beginCheckout(products, identifier);
+  }
+
+  addToCartEvent(params) {
+    return AppMetrica.addToCart(params);
+  }
+
+  removeFromCartEvent(params) {
+    return AppMetrica.removeFromCart(params);
+  }
+
+  finishCheckoutEvent(products, identifier) {
+    return AppMetrica.finishCheckout(products, identifier)
+  }
   //
 
   getToken(){
