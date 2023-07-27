@@ -54,6 +54,12 @@ declare module 'react-native-appmetrica-next' {
         static setStatisticsSending(enabled: boolean): void;
         static setUserProfileID(userProfileID: string): void;
         // Ecommerce
-        static showScreen(name: string): Promise<void>
+        static showScreen(params: {}): Promise<void>
+        static showScreenWithCategories(params: {}): Promise<void>
+        static showProductCard(params: {}): Promise<void>
+        static beginCheckout(products: [], identifier: string): Promise<void>
+        static addToCart(params: {}): Promise<void>
+        static removeFromCart(params: {}): Promise<void>
+        static finishCheckout(products: [], identifier: string): Promise<void>
     }
 }
