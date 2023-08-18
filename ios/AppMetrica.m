@@ -77,7 +77,7 @@ RCT_EXPORT_METHOD(getLibraryApiLevel)
 
 - (YMMECommerceProduct *)createProduct:(NSDictionary *)product {
     YMMECommerceAmount *actualFiat = [[YMMECommerceAmount alloc] initWithUnit:product[@"currency"] value:[NSDecimalNumber decimalNumberWithString:product[@"price"]]];
-   YMMECommercePrice *actualPrice = [[YMMECommercePrice alloc] initWithFiat:actualFiat internalComponents:@[]];
+    YMMECommercePrice *actualPrice = [[YMMECommercePrice alloc] initWithFiat:actualFiat internalComponents:@[]];
     YMMECommerceProduct *productObj = [[YMMECommerceProduct alloc] initWithSKU:product[@"sku"] name:product[@"name"] categoryComponents:@[] payload:@{} actualPrice:actualPrice originalPrice:actualPrice promoCodes:@[]];
 
     return productObj;

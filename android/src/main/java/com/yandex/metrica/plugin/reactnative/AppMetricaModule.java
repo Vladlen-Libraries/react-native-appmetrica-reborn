@@ -30,6 +30,7 @@ import com.yandex.metrica.ecommerce.ECommerceProduct;
 import com.yandex.metrica.ecommerce.ECommerceReferrer;
 import com.yandex.metrica.ecommerce.ECommerceScreen;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.lang.*;
 import java.util.List;
@@ -167,16 +168,17 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     }
 
     public ECommerceProduct createProduct(ReadableMap params) {
-        ECommercePrice actualPrice = new ECommercePrice(new ECommerceAmount(Integer.parseInt(params.getString("price")), params.getString("currency")));
-        return new ECommerceProduct(params.getString("sku")).setActualPrice(actualPrice).setName(params.getString("name"));
+        ECommercePrice actualPrice = new ECommercePrice(new ECommerceAmount(Double.parseDouble(params.getString("price")), params.getString("currency")));
+        return new ECommerceProduct(params.getString("sku")).setOriginalPrice(actualPrice).setActualPrice(actualPrice).setName(params.getString("name"));
     }
 
     public ECommerceCartItem createCartItem(ReadableMap params) {
         ECommerceScreen screen = this.createScreen(params);
         ECommerceProduct product = this.createProduct(params);
-        ECommercePrice actualPrice = new ECommercePrice(new ECommerceAmount(Integer.parseInt(params.getString("price")), params.getString("currency")));
+        ECommercePrice actualPrice = new ECommercePrice(new ECommerceAmount(Double.parseDouble(params.getString("price")), params.getString("currency")));
         ECommerceReferrer referrer = new ECommerceReferrer().setScreen(screen);
-        return new ECommerceCartItem(product, actualPrice, Integer.parseInt(params.getString("quantity"))).setReferrer(referrer);
+        BigDecimal bigDecimal = new BigDecimal(params.getString("quantity"));
+        return new ECommerceCartItem(product, actualPrice, bigDecimal).setReferrer(referrer);
     }
 
     @ReactMethod
