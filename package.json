@@ -1,7 +1,7 @@
 {
   "name": "react-native-appmetrica-reborn",
   "title": "Yandex AppMetrica React Native Plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AppMetrica fork with Ecommerce support",
   "main": "index.js",
   "scripts": {
