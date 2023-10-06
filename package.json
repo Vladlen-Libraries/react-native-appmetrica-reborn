@@ -1,15 +1,15 @@
 {
-  "name": "react-native-appmetrica-next",
-  "title": "Yandex AppMetrica React Native Plugin && AppMetricaPushSDK (fireBase CloudMessage)",
-  "version": "2.2.0",
-  "description": "React Native plugin for AppMetrica analytics tool",
+  "name": "react-native-appmetrica-reborn",
+  "title": "Yandex AppMetrica React Native Plugin",
+  "version": "1.0.0",
+  "description": "AppMetrica fork with Ecommerce support",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aspidvip/react-native-appmetrica-next.git"
+    "url": "git+https://github.com/Vladlen-Libraries/react-native-appmetrica-reborn.git"
   },
   "keywords": [
     "yandex",

@@ -1,4 +1,6 @@
-# react-native-appmetrica-next
+# react-native-appmetrica-reborn
+
+## Fork with [Ecommerce Events](https://appmetrica.yandex.ru/docs/data-collection/about-ecommerce.html) support
 
 WARNING!!!
 ver 2.0 RN68 >=
@@ -9,16 +11,16 @@ react-native-push-next library functionality is expanded [react-native-appmetric
 
 ## Installation
 
-`npm install https://github.com/Vladlen-Development/react-native-appmetrica-next.git --save`
+`npm install react-native-appmetrica-reborn --save`
 
 or
 
-`yarn add https://github.com/Vladlen-Development/react-native-appmetrica-next.git`
+`yarn add react-native-appmetrica-reborn`
 
 ## Usage
 
 ```js
-import AppMetrica from "react-native-appmetrica-next";
+import AppMetrica from "react-native-appmetrica-reborn";
 
 // Starts the statistics collection process.
 AppMetrica.activate({

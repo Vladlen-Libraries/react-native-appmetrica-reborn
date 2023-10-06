@@ -1,4 +1,4 @@
-declare module 'react-native-appmetrica-next' {
+declare module 'react-native-appmetrica-reborn' {
     export type AppMetricaConfig = {
         apiKey: string,
         appVersion?: string,
