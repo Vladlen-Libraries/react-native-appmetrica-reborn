@@ -27,31 +27,31 @@ class YandexMetrica {
   }
 
   //Ecommerce Methods:
-  showScreenEvent(params) {
+  showScreen(params) {
     return AppMetrica.showScreen(params);
   }
 
-  showScreenWithCategoriesEvent(params, categories) {
+  showScreenWithCategories(params, categories) {
     return AppMetrica.showScreenWithCategories(params, categories);
   }
 
-  showProductCardEvent(params) {
+  showProductCard(params) {
     return AppMetrica.showProductCard(params);
   }
 
-  beginCheckoutEvent(products, identifier) {
+  beginCheckout(products, identifier) {
     return AppMetrica.beginCheckout(products, identifier);
   }
 
-  addToCartEvent(params) {
+  addToCart(params) {
     return AppMetrica.addToCart(params);
   }
 
-  removeFromCartEvent(params) {
+  removeFromCart(params) {
     return AppMetrica.removeFromCart(params);
   }
 
-  finishCheckoutEvent(products, identifier) {
+  finishCheckout(products, identifier) {
     return AppMetrica.finishCheckout(products, identifier)
   }
   //
